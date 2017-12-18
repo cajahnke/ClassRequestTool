@@ -19,7 +19,7 @@
           %strong Select a library or archive:
         %p.text-center
           .form#select-repo
-            = select_tag :repo, options_from_collection_for_select(@repositories, :id, :name), :prompt => '-- Choose a Library/Archive --', :class => 'form-control'
+            = hidden_field_tag :repo, '1'
             %br
             %p
               %button.btn.btn-primary Request Class
