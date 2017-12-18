@@ -30,7 +30,16 @@ class Customization < ActiveRecord::Base
 
   def self.default
     Customization.new(
-                      DEFAULTS
+                      {
+                         institution: 'Academia',
+                         institution_long: 'Academia University',
+                         tool_name: 'Class Request Tool',
+                         tool_tech_admin_name: 'Technical Contact',
+                         tool_tech_admin_email: 'tech@academia.edu',
+                         tool_content_admin_name: 'Content Contact',
+                         tool_content_admin_email: 'librarian@academia.edu',
+                         default_email_sender: 'library_crt@academia.edu'
+                      }
     )
   end
 
