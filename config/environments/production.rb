@@ -7,7 +7,7 @@ ClassRequestTool::Application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
@@ -33,7 +33,7 @@ ClassRequestTool::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
@@ -53,7 +53,7 @@ ClassRequestTool::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   
-  config.action_mailer.default_url_options = { :host => 'classrequest.library.harvard.edu' }
+  config.action_mailer.default_url_options = { :host => ENV['ROOT_URL'] }
 
   config.action_mailer.delivery_method = :sendmail
 
