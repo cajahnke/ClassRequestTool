@@ -19,15 +19,20 @@
     %a{"data-toggle" => "tab", :href => "#closed", :role => "tab"} Completed Classes
 .dash-wrap.tab-content
   #upcoming.tab-pane.active.row
-    = render :partial => 'dashboard_table',   |
-      :locals => { :id => 'user-unscheduled',  |
-      :title => 'My Unscheduled Classes', |
-      :courses => @claimed_unscheduled }                |
+    = render :partial => 'dashboard_table', |
+      :locals => { :id => 'user-upcoming-setup',   |
+      :title => 'My Scheduled Classes: Setup/Takedown', |
+      :courses => @claimed_scheduled_setup }                 |
     -#
     = render :partial => 'dashboard_table', |
-      :locals => { :id => 'user-upcoming',   |
-      :title => 'My Scheduled Classes', |
-      :courses => @claimed_scheduled }                 |
+      :locals => { :id => 'user-upcoming-teaching',   |
+      :title => 'My Scheduled Classes: Teaching', |
+      :courses => @claimed_scheduled_teaching }                 |
+    -#
+    = render :partial => 'dashboard_table',   |
+      :locals => { :id => 'user-unscheduled',  |
+      :title => 'Unscheduled Classes', |
+      :courses => @claimed_unscheduled }                |
   / END #upcoming
   #homeless.tab-pane.row
     .clearfix
