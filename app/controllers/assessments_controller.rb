@@ -81,6 +81,12 @@ class AssessmentsController < ApplicationController
     @repository_name = (@course.try(:repository).try(:name) ? @course.repository.name : 'our Library/Archive')
   end
 
+  def export
+    csv_export = CSVExport.new('Assessment'.constantize, [], params[:associations])
+    csv_export.build
+    send_data csv_export.output, :type => 'text/csv', :filename => "assessment_data_export.csv"
+  end  
+  
   def edit
     @assessment = Assessment.find(params[:id])
     @repository_name = (@assessment.course.try(:repository).try(:name) ? @assessment.course.try(:repository).try(:name) : 'our Library/Archive')
