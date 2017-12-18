@@ -129,16 +129,7 @@ class Notification < ActionMailer::Base
     fetch_custom_text(__method__.to_s)
     @course = course
 
-    # If repository is empty (homeless), send to all admins of tool
-    if course.repository.blank?
-      recipients = User.where('admin = ? OR superadmin = ?', true, true).map{|a| a.email }
-
-    # Otherwise send to all users assigned to the repository
-    else
-      recipients = course.repository.users.map{|u| u.email}
-      superadmins = User.where(:superadmin => true).map{|u| u.email}
-      recipients += superadmins
-    end
+    recipients = User.where('superadmin = ?', true).map{|a| a.email }
 
     mail(to: recipients, subject: "[ClassRequestTool] A New #{course.repository.blank? ? 'Homeless ' : ''}Class Request has been Received")
   end
