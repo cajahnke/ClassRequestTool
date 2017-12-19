@@ -22,6 +22,11 @@ class CoursesController < ApplicationController
     end
   end
 
+  def export
+    csv_export = CSVExport.new('Course'.constantize, [], params[:associations])
+    csv_export.build
+    send_data csv_export.output, :type => 'text/csv', :filename => "course_data_export.csv"
+  end
 
   def cancel
     course = Course.find(params[:id])
@@ -106,6 +111,8 @@ class CoursesController < ApplicationController
     @unclaimed_scheduled    = []
     @claimed_unscheduled    = []
     @claimed_scheduled      = []
+    @claimed_scheduled_teaching = []
+    @claimed_scheduled_setup = []
     @cancelled               = [] # we currently don't display these; they're being filtered out in the db grab
 
     #Loop over courses and slot them into their categories
@@ -137,6 +144,12 @@ class CoursesController < ApplicationController
       elsif course.unclaimed? && current_user.repositories.include?(course.repository) && !course.closed? && !course.cancelled?
         if course.scheduled?
           @unclaimed_scheduled << course
+          if course.repository_id == 2
+            @claimed_scheduled_teaching << course
+          end
+          if course.repository_id == 4
+            @claimed_scheduled_setup << course
+          end
         else
           @unclaimed_unscheduled << course
           section_ids = course.missing_dates?
@@ -544,7 +557,7 @@ class CoursesController < ApplicationController
         :time_choice_1, :time_choice_2, :time_choice_3, :time_choice_4,                               # tentative schedule vals
         #:pre_class_appt_choice_1, :pre_class_appt_choice_2, :pre_class_appt_choice_3,                #unused
         :section_count, :session_count, :total_attendance,                                            # stats
-        :staff_involvement,
+        :staff_involvement, :outreach, :level,
         :primary_contact_id,                                                                          # associations
         {:collaboration_options           => [] },
         { :item_attribute_ids             => [] },
