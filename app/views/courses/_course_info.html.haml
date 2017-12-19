@@ -23,6 +23,8 @@
             %label.control-label What is your affiliation?
             %br/
             = text_field_tag :other_affiliation, @other_affiliation, class: 'form-control'
+          %p
+            = f.input :level, :as => :radio, :collection => Course::LEVEL, :label => "Level of Class: "
       .form_full_width
         - unless @course.syllabus.blank?
           = link_to @course.syllabus.file.filename, @course.syllabus_url
