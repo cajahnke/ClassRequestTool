@@ -36,6 +36,9 @@
       %span.summary-label Affiliation:
       %span#a_affiliation= @course.affiliation unless @course.affiliation.nil?
     %li
+      %span.summary-label Level of Class:
+      %span#a_level= @course.level unless @course.level.nil?
+    %li
       %span.summary-label Number of Students:
       %span#studentNo= @course.number_of_students unless @course.number_of_students.nil?
     %li
@@ -80,6 +83,9 @@
             %li= "#{ap.first_name} #{ap.last_name}, #{ap.email}, (#{ap.role})"
   %h4 Staff Assignments
   %ul.summary-info
+    %li
+      %span.summary-label Outreach:
+      = @course.outreach ? "Yes" : "No"
     %li
       %span.summary-label Primary Library/Archive Contact:
       - unless @course.primary_contact.nil?
