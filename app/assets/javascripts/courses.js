@@ -235,13 +235,13 @@ $(function () {
 
   /* Handle affiliation code on course request form */
   $('#affiliation .affiliation_field').hide();
-  $('#affiliation input[type=radio]:checked').val();
-  $('#local_' + $('#affiliation input[type=radio]:checked').val()).show();
+  $('#affiliation input[name=affiliation_selection]:checked').val();
+  $('#local_' + $('#affiliation input[name=affiliation_selection]:checked').val()).show();
   if ($('#other_affiliation').val() !== '') {
     $('#local_no_or_other').show();
   }
-  $('#affiliation input[type=radio]').change(function(e) {
-    var selected = $('#affiliation input[type=radio]:checked').val();
+  $('#affiliation input[name=affiliation_selection]').change(function(e) {
+    var selected = $('#affiliation input[name=affiliation_selection]:checked').val();
     if (selected == 'yes') {
       $('#local_yes').slideDown();
       $('#local_no_or_other').slideUp();
