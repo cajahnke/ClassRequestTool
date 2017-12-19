@@ -24,6 +24,7 @@ class Course < ActiveRecord::Base
   validates_presence_of :contact_email, :message => "contact email is required"
   validates_format_of :contact_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, :message => "Invalid email"
   validates_presence_of :contact_phone
+  validates_presence_of :course_number
   validates_presence_of :number_of_students, :message => "please enter a number"
   validates_presence_of :goal, :message => "please enter a goal"
   validates_presence_of :duration, :message => "please enter a duration in hours"
@@ -49,6 +50,8 @@ class Course < ActiveRecord::Base
 
   after_save :update_stats
 
+  LEVEL = ['Graduate', 'Undergraduate']  
+  validates_inclusion_of :level, :in => LEVEL
   
   STATUS = ['Active', 'Cancelled', 'Closed']  
   validates_inclusion_of :status, :in => STATUS
@@ -206,22 +209,27 @@ class Course < ActiveRecord::Base
     fields = ["c.created_at",
               'title',
 #               'subject',
-#               'course_number',
-#               'affiliation',
+              'course_number',
+              'affiliation',
 #               'contact_email',
 #               'contact_phone',
-#               'pre_class_appt',
+              'pre_class_appt',
 #               'r.name',                             # Repositories column
 #               'u.first_name || u.last_name',
                "ss.description",                     # staff services are now in a separate table, aggregate - see formatted_fields and group_by
+               'teaching',
+               'presentation',
+               'RVRassignment',
 #               'number_of_students',
 #               'status',
 #               'syllabus',
 #               'external_syllabus',
               'duration',
 #              'comments',
+              'single_or_not',
               'session_count',
               'goal',
+              'outreach',
               'contact_first_name',
               'contact_last_name',
               'contact_username',
@@ -229,7 +237,7 @@ class Course < ActiveRecord::Base
               's.id',                               # Sections column
               'c.first_date',
 #              "s.actual_date",                      # Sections column 
-#              's.headcount'                         # Sections column
+             's.headcount'                         # Sections column
             ]
             
     # Have to aggregate on everything that isn't aggregated. How aggravating.
@@ -243,6 +251,18 @@ class Course < ActiveRecord::Base
         header_row << 'Submitted'
         formatted_fields << "to_char(#{field}, 'YYYY-MM-DD HH:MIam') AS created"
         group_by << field
+      when 'outreach'
+        header_row << 'Outreach?'
+        formatted_fields << "case when outreach = true then 'Yes' when outreach = false then 'No' else '' end as outreach"
+        group_by << field
+      when 'pre_class_appt'
+        header_row << 'Pre-class consultation'
+        formatted_fields << "case when pre_class_appt is not null then 'Yes: ' || to_char(#{field}, 'YYYY-MM-DD') else '' end as pre_class_appt"
+        group_by << field
+      when 'single_or_not'
+        header_row << 'Single or Semester Visit'
+        formatted_fields << "case when session_count > 1 or exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 4) then 'Semester' when session_count = 1 then 'Single' else '' end as single_or_not"
+        group_by << 'session_count'
       when 'r.name'
         header_row << 'Repository'
         formatted_fields << field
@@ -250,11 +270,23 @@ class Course < ActiveRecord::Base
       when 'u.first_name || u.last_name'
         header_row << 'Primary staff contact'
         formatted_fields << '(u.first_name || " " || u.last_name) AS full_name'
-        group_by << fieeld
+        group_by << field
       when 's.session'
         header_row << 'Session'
         formatted_fields << field
         group_by << field
+      when 'teaching'
+        header_row << 'Staff Teaching'
+        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 21) then 'Yes' else '' end as teaching"
+        group_by << 'c.id'
+      when 'presentation'
+        header_row << 'Staff Presentation'
+        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 20) then 'Yes' else '' end as presentation"
+        group_by << 'c.id'
+      when 'RVRassignment'
+        header_row << 'Student RVR Assignment '
+        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 9) then 'Yes' else '' end as RVRassignment"
+        group_by << 'c.id'
       when 's.id'
         header_row << 'Section ID'
         formatted_fields << field
