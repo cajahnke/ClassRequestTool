@@ -218,7 +218,6 @@ class Course < ActiveRecord::Base
 #               'u.first_name || u.last_name',
                "ss.description",                     # staff services are now in a separate table, aggregate - see formatted_fields and group_by
                'teaching',
-               'presentation',
                'RVRassignment',
 #               'number_of_students',
 #               'status',
@@ -278,10 +277,6 @@ class Course < ActiveRecord::Base
       when 'teaching'
         header_row << 'Staff Teaching'
         formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 21) then 'Yes' else '' end as teaching"
-        group_by << 'c.id'
-      when 'presentation'
-        header_row << 'Staff Presentation'
-        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 20) then 'Yes' else '' end as presentation"
         group_by << 'c.id'
       when 'RVRassignment'
         header_row << 'Student RVR Assignment '
