@@ -1,4 +1,4 @@
-class AddTriggerSRPCtoCourses < ActiveRecord::Migration
+class AddTriggerFunctionSetrepositoryprimarycontact < ActiveRecord::Migration
   def change
     execute <<-SQL
       CREATE OR REPLACE FUNCTION setRepositoryPrimaryContact()
