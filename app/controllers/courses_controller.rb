@@ -464,7 +464,7 @@ class CoursesController < ApplicationController
       end
 
       unless params[:send_timeframe_email].blank?
-        Notification.timeframe_change.deliver_later(:queue => 'notifications')
+        Notification.timeframe_change(@course).deliver_later(:queue => 'notifications')
         flash_message :info, "Time change confirmation sent"  unless Customization.current.notifications_on?
       end
 
