@@ -41,6 +41,6 @@
                 :name => "#{name_prefix}[room_id]",       |
                 :class => "form-control"                  |
               %span.help-block Room that section is scheduled in.
-          = formtastic_wrapper('string', "Session Notes", (text_area :notes, sect.notes, :name => "#{name_prefix}[notes]", |
-            :id => "#{id_prefix}_notes", :class => 'form-control')).html_safe
+          = formtastic_wrapper('string', "Session Notes", (text_field_tag :notes, sect.notes, :as => :text_area, |
+            :name => "#{name_prefix}[notes]", :id => "#{id_prefix}_notes", :class => 'form-control')).html_safe
 / END .section
