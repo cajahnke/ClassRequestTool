@@ -236,7 +236,8 @@ class Course < ActiveRecord::Base
               's.id',                               # Sections column
               'c.first_date',
 #              "s.actual_date",                      # Sections column 
-             's.headcount'                         # Sections column
+             's.headcount',                         # Sections column
+               's.notes'
             ]
             
     # Have to aggregate on everything that isn't aggregated. How aggravating.
@@ -272,6 +273,10 @@ class Course < ActiveRecord::Base
         group_by << field
       when 's.session'
         header_row << 'Session'
+        formatted_fields << field
+        group_by << field
+      when 's.notes'
+        header_row << 'Session Notes'
         formatted_fields << field
         group_by << field
       when 'teaching'
