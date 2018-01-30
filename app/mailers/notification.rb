@@ -152,10 +152,9 @@ class Notification < ActionMailer::Base
 
     # send to assigned staff members
     recipients = course.users.map{|u| u.email}
-    unless course.primary_contact.blank? || course.primary_contact == current_user
+    unless course.primary_contact.blank?
       recipients << course.primary_contact.email
     end
-    recipients -= [current_user.email]
 
     mail(to: recipients, subject: "[ClassRequestTool] You have been assigned a class")
   end
@@ -181,7 +180,7 @@ class Notification < ActionMailer::Base
     end
 
     unless course.pre_class_appt.blank?
-      @pre_class = "<p>Additionally, your pre-class planning appointment is scheduled for #{course.pre_class_appt} with #{name} at #{repository}.</p>"
+      @pre_class = "<p>Additionally, your pre-class planning appointment is scheduled for #{course.pre_class_appt} with #{@staff_name} at #{course.repo_name}.</p>"
     end
 
     # send email to requester
