@@ -1,0 +1,2 @@
+Just a placeholder to note that images in jquery are broken as is.  
+setting paths with images to /images and copying desired theme images into app/assets/images seems to fix
