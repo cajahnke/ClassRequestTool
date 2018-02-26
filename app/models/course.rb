@@ -50,7 +50,7 @@ class Course < ActiveRecord::Base
 
   after_save :update_stats
 
-  LEVEL = ['Graduate', 'Undergraduate']  
+  LEVEL = ['Graduate', 'Undergraduate', 'High School', 'Primary Education']  
   validates_inclusion_of :level, :in => LEVEL
   
   STATUS = ['Active', 'Cancelled', 'Closed']  
