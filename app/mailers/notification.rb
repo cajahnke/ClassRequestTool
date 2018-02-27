@@ -180,7 +180,7 @@ class Notification < ActionMailer::Base
     end
 
     unless course.pre_class_appt.blank?
-      @pre_class = "<p>Additionally, your pre-class planning appointment is scheduled for #{course.pre_class_appt} with #{@staff_name} at #{course.repo_name}.</p>"
+      @pre_class = "<p>Additionally, your pre-class planning appointment is scheduled for #{course.pre_class_appt} with #{@staff_name} at the Harry Ransom Center.</p>"
     end
 
     # send email to requester
