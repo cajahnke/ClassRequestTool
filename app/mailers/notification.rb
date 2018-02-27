@@ -40,7 +40,7 @@ class Notification < ActionMailer::Base
       recipients += course.additional_patrons.map { |p| p.email }
     end
 
-    mail(to: recipients, subject: "[ClassRequestTool] Please Assess your Recent Class at #{course.repo_name}")
+    mail(to: recipients, subject: "[ClassRequestTool] Please Assess your Recent Class at Harry Ransom Center")
   end
 
   def cancellation(course)
