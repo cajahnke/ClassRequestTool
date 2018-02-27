@@ -33,7 +33,7 @@
           = formtastic_wrapper('number', "Headcount (number of students attended): ", (text_field_tag :headcount, sect.headcount, :type => 'number', :name => "#{name_prefix}[headcount]", :id => "#{id_prefix}_headcount", :class => 'headcount_val form-control', :min => 0, :step => 1, :only_integer => true)).html_safe
           .select.input.optional.form-group{:id => "#{id_prefix}_room_input"}
             - unless @course.nil? || @course.repository.nil?
-              %label.control-label{:for => "#{id_prefix}_room_id"} Room Assignment (#{@course.repository.name}):
+              %label.control-label{:for => "#{id_prefix}_room_id"} Room Assignment (Harry Ransom Center):
               = select_tag :room_id,                      |
                 options_from_collection_for_select(@course.repository.rooms.order(:name), :id, :name, sect.room_id), |
                 :include_blank => true,                   |
