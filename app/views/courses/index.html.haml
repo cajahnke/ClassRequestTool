@@ -7,11 +7,11 @@
       .alert.alert-warning There are classes without requested or actual dates at the end of this list.
       
   - if current_user.patron?
-    %p To submit a new class, choose a Library/Archive:
+    %p To submit a new class:
     = form_tag new_course_path, :method => :get do
       .row
-        = select_tag :repository, options_from_collection_for_select(@repositories, "id", "name"), :class => 'input select form-control', :prompt => "Not Sure - Help me Choose"
-        = submit_tag "Go", :class => 'btn btn-primary'
+        = hidden_field_tag :repository, '1'
+        = submit_tag "Request Class", :class => 'btn btn-primary'
       
   %br/
   - unless @courses.nil? || @courses.empty?
