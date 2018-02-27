@@ -8,7 +8,7 @@
   %br/
   %br/
   %strong
-    In what ways was #{@repository_name} involved in your class?
+    In what ways was the Harry Ransom Center involved in your class?
   %ul
     - @assessment.involvement.split(',').each do |i|
       %li= i
@@ -37,14 +37,14 @@
   %br/
   %br/
   %strong
-    Do you plan to involve #{@repository_name} in your teaching again?
+    Do you plan to involve the Harry Ransom Center in your teaching again?
   = @assessment.involve_again
   %br/
   %strong If no, please tell us why not:
   = @assessment.not_involve_again
   %br/
   %strong
-    What could #{@repository_name} do to make your teaching with special collections better in the future?
+    What could the Harry Ransom Center do to make your teaching with special collections better in the future?
   = @assessment.better_future
   %br/
 %p
