@@ -213,7 +213,7 @@ class Course < ActiveRecord::Base
               'affiliation',
 #               'contact_email',
 #               'contact_phone',
-              'pre_class_appt',
+#               'pre_class_appt',
 #               'r.name',                             # Repositories column
 #               'u.first_name || u.last_name',
                "ss.description",                     # staff services are now in a separate table, aggregate - see formatted_fields and group_by
