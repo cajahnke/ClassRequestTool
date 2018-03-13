@@ -354,4 +354,8 @@ $(function () {
       $notClicked.attr('disabled', false).removeClass('btn-info').addClass('btn-warning');
     });
   });
+	
+  if ($('body').hasClass('u_patron')){
+    $('label[for=course_staff_service_26]').css('visibility','hidden').css('float','right');
+  }
 });
