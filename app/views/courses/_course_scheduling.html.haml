@@ -20,10 +20,9 @@
   - if current_user.can_schedule?
     .form_full_width.admin-box
       %label Confirm class date/time
-      %p.hint (Also use to confirm changes to class dates/times or a scheduled pre-class appointment, if applicable.)
       .checkbox
         = check_box_tag 'send_timeframe_email', 1, false, :class => 'checkbox'
-        Check to send email notification of confirmed or changed class date/time and (if applicable) scheduled pre-class appointment to requester.
+        Check to send email notification of confirmed or changed class date/time to requester.
       %br/
       %br/
   #form_full_width
