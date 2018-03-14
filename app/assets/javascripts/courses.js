@@ -358,4 +358,45 @@ $(function () {
   if ($('body').hasClass('u_patron')){
     $('label[for=course_staff_service_26]').css('visibility','hidden').css('float','right');
   }
+
+  $('.add_section-button-block').hide();
+  $('.add_session-button-block').hide();
+  $('.over_35 #multiple_visit').hide();
+  $('.over_35 #single_visit').hide();
+  if ($('#semester_long_no_single_visit').prop('checked') === true && !isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+    $('.add_section-button-block').show();
+    $('.over_35 #single_visit').show();
+  } else if ($('#semester_long_no_multiple_visit').prop('checked') === true){
+    $('.add_session-button-block').show();
+    if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+      $('.over_35 #multiple_visit').show();
+    }
+  }
+  $('input[name=semester_long]').change(function semester_long_change(e){
+    var sel = $('input[name=semester_long]:checked').attr('id');
+    switch (sel){
+      case 'semester_long_no_single_visit':
+        if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+          $('.add_section-button-block').show();
+          $('.add_session-button-block').hide();
+          $('.over_35 #single_visit').show();
+          $('.over_35 #multiple_visit').hide();
+        }
+        break;
+      case 'semester_long_no_multiple_visit':
+        $('.add_session-button-block').show();
+        $('.add_section-button-block').hide();
+        if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+          $('.over_35 #multiple_visit').show();
+          $('.over_35 #single_visit').hide();
+        }
+        break;
+      case 'semester_long_yes':
+        $('.add_section-button-block').hide();
+        $('.add_session-button-block').hide();
+        $('.over_35 #multiple_visit').hide();
+        $('.over_35 #single_visit').hide();
+        break;
+    }
+  });
 });
