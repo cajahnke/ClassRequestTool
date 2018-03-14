@@ -7,17 +7,8 @@
       :label => "Class Duration (hours): ",                                   |
       :input_html => {:maxlength => 4, :placeholder => "e.g. 1.5"  }          |
   .form_full_width
-    %p Please select the option that best suits your class needs:
-    %ul{:style => "list-style: none;"}
-      %li 
-        = radio_button_tag 'semester_long', 0, @course.semester_long == 'no' && @course.session_count == 1, :id => 'semester_long_no_single_visit'
-        = label_tag 'semester_long_no_single_visit', 'I want to bring my class in only one time this semester.'
-      %li 
-        = radio_button_tag 'semester_long', 0, @course.semester_long == 'no'&& @course.session_count > 1, :id => 'semester_long_no_multiple_visit'
-        = label_tag 'semester_long_no_multiple_visit', 'I want to bring my class in more than one time this semester to look at different materials.'
-      %li 
-        = radio_button_tag 'semester_long', 1, @course.semester_long == 'yes', :label => 'I want to bring my class in each week this semester.', :id => 'semester_long_yes'
-        = label_tag 'semester_long_yes', 'I want to bring my class in each week this semester.'
+    %p
+      = f.input :semester_long, :as => :radio, :collection => [['I want to bring my class in only one time this semester.','1'],['I want to bring my class in more than one time this semester to look at different materials.','2'],['I want to bring my class in each week this semester.','3']], :label => 'Please select the option that best suits your class needs:'
     .over_35
       #single_visit
         %p Maximum classroom capacity is 35.  Please schedule visit in multiple sections.
