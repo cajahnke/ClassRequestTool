@@ -363,35 +363,44 @@ $(function () {
   $('.add_session-button-block').hide();
   $('.over_35 #multiple_visit').hide();
   $('.over_35 #single_visit').hide();
-  if ($('#semester_long_no_single_visit').prop('checked') === true && !isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+  if ($('#course_semester_long_1').prop('checked') === true && !isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
     $('.add_section-button-block').show();
     $('.over_35 #single_visit').show();
-  } else if ($('#semester_long_no_multiple_visit').prop('checked') === true){
+  } else if ($('#course_semester_long_2').prop('checked') === true){
     $('.add_session-button-block').show();
     if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
       $('.over_35 #multiple_visit').show();
     }
   }
-  $('input[name=semester_long]').change(function semester_long_change(e){
-    var sel = $('input[name=semester_long]:checked').attr('id');
+
+  $('input[name="course[semester_long]"]').change(function semester_long_change(e){
+    var sel = $('input[name="course[semester_long]"]:checked').attr('id');
     switch (sel){
-      case 'semester_long_no_single_visit':
+      case 'course_semester_long_1':
         if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
           $('.add_section-button-block').show();
           $('.add_session-button-block').hide();
           $('.over_35 #single_visit').show();
           $('.over_35 #multiple_visit').hide();
+        } else {
+          $('.add_section-button-block').hide();
+          $('.add_session-button-block').hide();
+          $('.over_35 #multiple_visit').hide();
+          $('.over_35 #single_visit').hide();
         }
         break;
-      case 'semester_long_no_multiple_visit':
+      case 'course_semester_long_2':
         $('.add_session-button-block').show();
         $('.add_section-button-block').hide();
         if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
           $('.over_35 #multiple_visit').show();
           $('.over_35 #single_visit').hide();
+        } else {
+          $('.over_35 #multiple_visit').hide();
+          $('.over_35 #single_visit').hide();
         }
         break;
-      case 'semester_long_yes':
+      case 'course_semester_long_3':
         $('.add_section-button-block').hide();
         $('.add_session-button-block').hide();
         $('.over_35 #multiple_visit').hide();
