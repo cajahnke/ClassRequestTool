@@ -11,9 +11,11 @@
       = f.input :semester_long, :as => :radio, :collection => [['I want to bring my class in only one time this semester.','1'],['I want to bring my class in more than one time this semester to look at different materials.','2'],['I want to bring my class in each week this semester.','3']], :label => 'Please select the option that best suits your class needs:'
     .over_35
       #single_visit
-        %p Maximum classroom capacity is 35.  Please schedule visit in multiple sections.
+        %p
+          %span.help-block Maximum classroom capacity is 35.  Please schedule visit in multiple sections.
       #multiple_visit
-        %p Maximum classroom capacity is 35.  Please make a note of class size.
+        %p
+          %span.help-block Maximum classroom capacity is 35.  Please make a note of class size.
     %p Please enter your preferred date and time for each class visit. If your only options for scheduling fall outside normal business hours, please use the note field to detail your availability.
     %p Final scheduling of a class visit is subject to both room and staff availability.
 
