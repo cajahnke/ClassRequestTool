@@ -225,7 +225,7 @@ class Course < ActiveRecord::Base
 #               'external_syllabus',
               'duration',
 #              'comments',
-              'single_or_not',
+              'semester_long',
               'session_count',
               'goal',
               'outreach',
@@ -259,10 +259,10 @@ class Course < ActiveRecord::Base
         header_row << 'Pre-class consultation'
         formatted_fields << "case when pre_class_appt is not null then 'Yes: ' || to_char(#{field}, 'YYYY-MM-DD') else '' end as pre_class_appt"
         group_by << field
-      when 'single_or_not'
-        header_row << 'Single or Semester Visit'
-        formatted_fields << "case when session_count > 1 or exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 4) then 'Semester' when session_count = 1 then 'Single' else '' end as single_or_not"
-        group_by << 'session_count'
+      when 'semester_long'
+        header_row << 'Semester Long'
+        formatted_fields << "case when semester_long = true then 'Yes' when semester_long = false then 'No' else '' end as semester_long"
+        group_by << field
       when 'r.name'
         header_row << 'Repository'
         formatted_fields << field
