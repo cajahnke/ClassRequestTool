@@ -137,24 +137,21 @@
       - @course.item_attributes.each do |tech|
         %li= tech.name
 
-  %h4 Pre-Class Appointment
+  %h4 Class Frequency
   %ul.summary-info
-    - if !@course.pre_class_appt.nil?
-      %li
-        %span.summary-label Pre-Class Appt:
-        = @course.pre_class_appt.strftime(DATETIME_AT_FORMAT) unless @course.pre_class_appt.nil?
-    - elsif !@course.pre_class_appt_choice_1.nil? || !@course.pre_class_appt_choice_2.nil? || !@course.pre_class_appt_choice_3.nil?
-      %li
-        %span.summary-label Choice 1:
-        = @course.pre_class_appt_choice_1.strftime(DATETIME_AT_FORMAT) unless @course.pre_class_appt_choice_1.nil?
-      %li
-        %span.summary-label Choice 2:
-        = @course.pre_class_appt_choice_2.strftime(DATETIME_AT_FORMAT) unless @course.pre_class_appt_choice_2.nil?
-      %li
-        %span.summary-label Choice 3:
-        = @course.pre_class_appt_choice_3.strftime(DATETIME_AT_FORMAT) unless @course.pre_class_appt_choice_3.nil?
-    - else
-      %li To be scheduled, if required.
+    - case @course.semester_long
+    - when 1
+      %li 
+        %span.summary-label I want to bring my class in only one time this semester.
+    - when 2
+      %li 
+        %span.summary-label I want to bring my class in more than one time this semester to look at different materials.
+    - when 3
+      %li 
+        %span.summary-label I want to bring my class in each week this semester.
+    -  when nil
+      %li  
+        %span.summary-label Not specified.
   %h4 Scheduling
   %ul.summary-info
     %li
