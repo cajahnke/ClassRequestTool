@@ -11,6 +11,6 @@
     = render :partial => 'session_block', :locals => { :sesh => sesh, :session_count => i, :section_index => section_index }
     - section_index += sesh.length
 
-.form_full_width
+.form_full_width.add_session-button-block
   %button.add_session.btn.btn-local-action Add A Session
   .glyphicon.glyphicon-info-sign{ "data-help_info" => "Add sessions if you need to meet more than once to view all the materials." }
