@@ -8,7 +8,7 @@
       :input_html => {:maxlength => 4, :placeholder => "e.g. 1.5"  }          |
   .form_full_width
     %p
-      = f.input :semester_long, :as => :radio, :collection => [['I want to bring my class in only one time this semester.','1'],['I want to bring my class in more than one time this semester to look at different materials.','2'],['I want to bring my class in each week this semester.','3']], :label => 'Please select the option that best suits your class needs:'
+      = f.input :scheduling, :as => :radio, :collection => [['I want to bring my class in only one time this semester.','1'],['I want to bring my class in more than one time this semester to look at different materials.','2'],['I want to bring my class in each week this semester.','3']], :label => 'Please select the option that best suits your class needs:'
     .over_35
       #single_visit
         %p
