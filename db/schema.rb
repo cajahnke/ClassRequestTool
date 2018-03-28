@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20160505190026) do
     t.boolean  "outreach"
     t.string   "level",                   limit: 100
     t.string   "clone",                   limit: 100
-    t.integer  "semester_long"
+    t.integer  "scheduling"
     t.boolean  "collaboration"
   end
 
