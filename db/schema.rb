@@ -144,6 +144,11 @@ ActiveRecord::Schema.define(version: 20160505190026) do
     t.boolean  "scheduled"
     t.integer  "assisting_repository_id"
     t.text     "collaboration_options",               default: [],              array: true
+    t.boolean  "outreach"
+    t.string   "level",                   limit: 100
+    t.string   "clone",                   limit: 100
+    t.integer  "semester_long"
+    t.boolean  "collaboration"
   end
 
   add_index "courses", ["affiliation"], name: "index_courses_on_affiliation", using: :btree
