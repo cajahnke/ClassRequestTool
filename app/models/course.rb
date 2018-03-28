@@ -60,11 +60,11 @@ class Course < ActiveRecord::Base
   validates_inclusion_of :status, :in => STATUS
   
   def scheduling_sessions
-    errors.add(:scheduling, "Missing one or more sessions") if sessions.size < 2
+    errors.add(:scheduling, "To bring your class for multiple visits this semester, please request multiple sessions.") if sessions.size < 2
   end
   
   def scheduling_sections
-    errors.add(:scheduling, "Missing one or more sections") if sections.size < 2
+    errors.add(:scheduling, "The classrooms have a maximum capacity of 35 people. Please request multiple sections so we can accommodate your class.") if sections.size < 2
   end
   
   # Note: DO NOT replace MAX(actual_date) with alias, .count will error out
