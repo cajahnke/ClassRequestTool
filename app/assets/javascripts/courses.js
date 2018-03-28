@@ -144,6 +144,7 @@ $(function () {
       $.get('/courses/new_section_or_session_block', { to_render: 'session', course_id: courseId, session_count: nextSessionCount(), section_index: nextSectionIndex()},
         function (data) {
           $('.sessions').append(data);
+	  semester_long_change();
         }
       );
     });
@@ -165,7 +166,7 @@ $(function () {
           $sessionDurations.last().val($sessionDurations.first().val());
 
           updateSectionHeader();
-
+	  semester_long_change();
         }
       );
     });
