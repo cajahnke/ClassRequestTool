@@ -2,10 +2,10 @@
 var firstClassDateExtraction = function(node) {
     return node.childNodes[0].innerHTML;
   },
-   semester_long_change = function(){
-    var sel = $('input[name="course[semester_long]"]:checked').attr('id');
+   scheduling_change = function(){
+    var sel = $('input[name="course[scheduling]"]:checked').attr('id');
     switch (sel){
-      case 'course_semester_long_1':
+      case 'course_scheduling_1':
         if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
           $('.add_section-button-block').show();
           $('.add_session-button-block').hide();
@@ -18,7 +18,7 @@ var firstClassDateExtraction = function(node) {
           $('.over_35 #single_visit').hide();
         }
         break;
-      case 'course_semester_long_2':
+      case 'course_scheduling_2':
         $('.add_session-button-block').show();
         $('.add_section-button-block').hide();
         if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
@@ -29,7 +29,7 @@ var firstClassDateExtraction = function(node) {
           $('.over_35 #single_visit').hide();
         }
         break;
-      case 'course_semester_long_3':
+      case 'course_scheduling_3':
         $('.add_section-button-block').hide();
         $('.add_session-button-block').hide();
         $('.over_35 #multiple_visit').hide();
@@ -144,7 +144,7 @@ $(function () {
       $.get('/courses/new_section_or_session_block', { to_render: 'session', course_id: courseId, session_count: nextSessionCount(), section_index: nextSectionIndex()},
         function (data) {
           $('.sessions').append(data);
-	  semester_long_change();
+	  scheduling_change();
         }
       );
     });
@@ -166,7 +166,7 @@ $(function () {
           $sessionDurations.last().val($sessionDurations.first().val());
 
           updateSectionHeader();
-	  semester_long_change();
+	  scheduling_change();
         }
       );
     });
@@ -399,16 +399,16 @@ $(function () {
   $('.add_session-button-block').hide();
   $('.over_35 #multiple_visit').hide();
   $('.over_35 #single_visit').hide();
-  if ($('#course_semester_long_1').prop('checked') === true && !isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
+  if ($('#course_scheduling_1').prop('checked') === true && !isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
     $('.add_section-button-block').show();
     $('.over_35 #single_visit').show();
-  } else if ($('#course_semester_long_2').prop('checked') === true){
+  } else if ($('#course_scheduling_2').prop('checked') === true){
     $('.add_session-button-block').show();
     if (!isNaN(Number($('#course_number_of_students').val())) && Number($('#course_number_of_students').val()) > 35){
       $('.over_35 #multiple_visit').show();
     }
   }
 
-  $('input[name="course[semester_long]"]').change(function(){semester_long_change()});
-  $('input[name="course[number_of_students]"]').change(function(){semester_long_change()});
+  $('input[name="course[scheduling]"]').change(function(){scheduling_change()});
+  $('input[name="course[number_of_students]"]').change(function(){scheduling_change()});
 });
