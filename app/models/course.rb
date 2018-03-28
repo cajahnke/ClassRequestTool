@@ -28,9 +28,9 @@ class Course < ActiveRecord::Base
   validates_presence_of :number_of_students, :message => "please enter a number"
   validates_presence_of :goal, :message => "please enter a goal"
   validates_presence_of :duration, :message => "please enter a duration in hours"
-  validates_presence_of :semester_long
-  validate :semester_long_sessions, if: -> {semester_long == 2}
-  validate :semester_long_sections, if: -> {semester_long == 1 && number_of_students > 35}
+  validates_presence_of :scheduling
+  validate :scheduling_sessions, if: -> {scheduling == 2}
+  validate :scheduling_sections, if: -> {scheduling == 1 && number_of_students > 35}
 
   mount_uploader :syllabus, SyllabusUploader
   
@@ -59,12 +59,12 @@ class Course < ActiveRecord::Base
   STATUS = ['Active', 'Cancelled', 'Closed']  
   validates_inclusion_of :status, :in => STATUS
   
-  def semester_long_sessions
-    errors.add(:semester_long, "Missing one or more sessions") if sessions.size < 2
+  def scheduling_sessions
+    errors.add(:scheduling, "Missing one or more sessions") if sessions.size < 2
   end
   
-  def semester_long_sections
-    errors.add(:semester_long, "Missing one or more sections") if sections.size < 2
+  def scheduling_sections
+    errors.add(:scheduling, "Missing one or more sections") if sections.size < 2
   end
   
   # Note: DO NOT replace MAX(actual_date) with alias, .count will error out
@@ -236,7 +236,7 @@ class Course < ActiveRecord::Base
 #               'external_syllabus',
               'duration',
 #              'comments',
-              'semester_long',
+              'scheduling',
               'session_count',
               'goal',
               'outreach',
@@ -275,9 +275,9 @@ class Course < ActiveRecord::Base
         header_row << 'Pre-class consultation'
         formatted_fields << "case when pre_class_appt is not null then 'Yes: ' || to_char(#{field}, 'YYYY-MM-DD') else '' end as pre_class_appt"
         group_by << field
-      when 'semester_long'
-        header_row << 'Semester Long'
-        formatted_fields << "case when semester_long = true then 'Yes' when semester_long = false then 'No' else '' end as semester_long"
+      when 'scheduling'
+        header_row << 'Semester Long?'
+        formatted_fields << "case when semester_long = 3 then 'Yes' when semester_long in (1,2) then 'No' else '' end as semester_long"
         group_by << field
       when 'r.name'
         header_row << 'Repository'
