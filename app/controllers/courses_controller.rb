@@ -563,7 +563,7 @@ class CoursesController < ApplicationController
         :time_choice_1, :time_choice_2, :time_choice_3, :time_choice_4,                               # tentative schedule vals
         #:pre_class_appt_choice_1, :pre_class_appt_choice_2, :pre_class_appt_choice_3,                #unused
         :section_count, :session_count, :total_attendance,                                            # stats
-        :staff_involvement, :outreach, :level, :clone, :semester_long, :collaboration,
+        :staff_involvement, :outreach, :level, :clone, :scheduling, :collaboration,
         :primary_contact_id,                                                                          # associations
         {:collaboration_options           => [] },
         { :item_attribute_ids             => [] },
