@@ -28,6 +28,9 @@ class Course < ActiveRecord::Base
   validates_presence_of :number_of_students, :message => "please enter a number"
   validates_presence_of :goal, :message => "please enter a goal"
   validates_presence_of :duration, :message => "please enter a duration in hours"
+  validates_presence_of :semester_long
+  validate :semester_long_sessions, if: -> {semester_long == 2}
+  validate :semester_long_sections, if: -> {semester_long == 1 && number_of_students > 35}
 
   mount_uploader :syllabus, SyllabusUploader
   
@@ -55,7 +58,15 @@ class Course < ActiveRecord::Base
   
   STATUS = ['Active', 'Cancelled', 'Closed']  
   validates_inclusion_of :status, :in => STATUS
-
+  
+  def semester_long_sessions
+    errors.add(:semester_long, "Missing one or more sessions") if sessions.size < 2
+  end
+  
+  def semester_long_sections
+    errors.add(:semester_long, "Missing one or more sections") if sections.size < 2
+  end
+  
   # Note: DO NOT replace MAX(actual_date) with alias, .count will error out
   #
   # Also Note: Subselect here is essentially just to hide
