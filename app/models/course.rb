@@ -229,6 +229,7 @@ class Course < ActiveRecord::Base
               'session_count',
               'goal',
               'outreach',
+              'collaboration',
               'contact_first_name',
               'contact_last_name',
               'contact_username',
@@ -254,6 +255,10 @@ class Course < ActiveRecord::Base
       when 'outreach'
         header_row << 'Outreach?'
         formatted_fields << "case when outreach = true then 'Yes' when outreach = false then 'No' else '' end as outreach"
+        group_by << field
+      when 'collaboration'
+        header_row << 'Collaboratively taught?'
+        formatted_fields << "case when collaboration = true then 'Yes' when collaboration = false then 'No' else '' end as collaboration"
         group_by << field
       when 'pre_class_appt'
         header_row << 'Pre-class consultation'
