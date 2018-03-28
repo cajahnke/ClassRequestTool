@@ -474,7 +474,13 @@ class CoursesController < ApplicationController
       end
 
     else
-      flash.now[:danger] = "Update Error: Could not save"
+      error_messages = "<p><strong>Please fix these problems:</strong></p>\n"
+      @course.errors.messages.each do |field, msgs|
+        msgs.each do |msg|
+          error_messages += "<p>#{field.to_s.titlecase}: #{msg}</p>\n"
+        end
+      end
+      flash.now[:danger] = error_messages.html_safe
       @course.sections.blank? ? @course.sections << Section.new(:course => @course) : nil
       respond_to do |format|
         format.html { render :action => :edit }
