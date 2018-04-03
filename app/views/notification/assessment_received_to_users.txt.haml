@@ -1,11 +1,13 @@
-An assessment has been received for one of your classes: 
+Dear professor,
+
+We have received your assessment for the following class: 
 
 = render :partial => 'shared/notification_course_info'}, :locals => { course: @course, test: @test  }
 
 - unless @custom_text.blank?
   = strip_tags(@custom_text)
 
-Review the feedback here:
+You can review your feedback here:
 
 - if @test
   (link to assessment)
