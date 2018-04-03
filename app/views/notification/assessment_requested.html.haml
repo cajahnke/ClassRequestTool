@@ -1,3 +1,9 @@
+%p
+  Dear professor,
+
+%p
+  Thank you for teaching with us.
+
 %p Your class session
 = render :partial => 'shared/notification_course_info', :locals => { course: @course, test: @test  }
 %p was recently completed.
@@ -9,7 +15,11 @@
   If you would consider taking five minutes to help us improve our services by filling out
   = succeed "," do
     %a{:href => new_assessment_url(:course_id => @course.id)} a short assessment about your experience
-  we would greatly appreciate it.
+  we would greatly appreciate it. These assessments help us evaluate how well we are meeting the needs of the campus community, and allow us to adapt and refine our services to better serve our users.
 %p
-  Thank you for utilizing the Harry Ransom Center in your course. We hope to work with you again soon.
+  We hope to work with you again soon.
 
+%p 
+  Best,
+  %br/
+  Kathryn
