@@ -1,4 +1,4 @@
-Your class request has been successfully submitted for #{@course.title}.
+Your class request has been successfully submitted for #{@course.title} at the Harry Ransom Center.
 
 You may review your request and update it with any new details or comments by leaving a note for staff here:
 
@@ -6,13 +6,9 @@ You may review your request and update it with any new details or comments by le
   (link to course)
 - else
   = course_url(@course)}
-  
-- unless @course.repository.blank? || @course.repository.email_details.blank?
-  You have requested a class at the Harry Ransom Center, which has the following specific details and/or instructions:
-  
-  \#{@course.repository.email_details.raw}
+and update it with any new details or comments by leaving a note for staff. We will notify you when your class has been scheduled. You will need to create a research account in order to request materials for your class. If you have not already done so, please create a research account via our website.  Please visit www.hrc.utexas.edu, on the menu select “Research,” then scroll to the right side menu and select “Access Your Research Account” and follow the prompts to “Create a New Account.”
 
-- unless @custom_text.blank?
-  = strip_tags(@custom_text)
+Thank you very much for your reservation request. If you have any further questions, please don’t hesitate to contact us.
 
-Thank you for your request. We look forward to working with you.
+Best,
+Kathryn
