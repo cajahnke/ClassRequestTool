@@ -1,5 +1,8 @@
 %p
-  An assessment has been received for one of your classes: 
+  Dear professor,
+
+%p
+  We have received your assessment for the following class: 
 
 = render :partial => 'shared/notification_course_info', :locals => { course: @assessment.course, test: @test  }
 
@@ -7,7 +10,7 @@
   = sanitize @custom_text.html_safe
 
 %p
-  Review the feedback
+  You can review your feedback
   = succeed "." do
     - if @test
       %a{ href: '#' } here (linked to assessment)
