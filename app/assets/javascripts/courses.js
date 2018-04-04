@@ -125,7 +125,7 @@ $(function () {
 
 
   /* courses#(new|edit) */
-  if ($('body').hasClass('c_courses') &&  ($('body').hasClass('a_edit') || $('body').hasClass('a_new'))) {
+  if ($('body').hasClass('c_courses') &&  ($('body').hasClass('a_edit') || $('body').hasClass('a_new') || $('body').hasClass('a_update') || $('body').hasClass('a_create'))) {
 
 
     var courseId = $('#info-left').data('course_id');
