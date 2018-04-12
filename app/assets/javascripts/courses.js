@@ -411,4 +411,9 @@ $(function () {
 
   $('input[name="course[scheduling]"]').change(function(){scheduling_change()});
   $('input[name="course[number_of_students]"]').change(function(){scheduling_change()});
+  $('div.flash-danger p').each(function(i,e){
+    if ($('input[name="course[scheduling]"]:checked').val() == 2 && this.innerHTML === 'Sections: The classrooms have a maximum capacity of 35 people. Please request multiple sections so we can accommodate your class.'){
+      this.innerHTML = 'Sections: To bring your class for multiple visits this semester, please request multiple sessions.'
+    }
+  });
 });
