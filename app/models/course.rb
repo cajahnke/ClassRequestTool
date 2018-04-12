@@ -29,9 +29,12 @@ class Course < ActiveRecord::Base
   validates_presence_of :goal, :message => "please enter a goal"
   validates_presence_of :duration, :message => "please enter a duration in hours"
   validates_presence_of :scheduling
-  validate :scheduling_sessions, if: -> {scheduling == 2 && (session_count == 1 || session_count == 0)}
-  validate :scheduling_sections, if: -> {scheduling == 1 && number_of_students > 35 && (section_count == 1 || section_count == 0)}
-
+  validates :sections,
+    if: -> {scheduling == 2 || (scheduling == 1 && number_of_students > 35)},
+    length: {
+      minimum: 2,
+      message: "The classrooms have a maximum capacity of 35 people. Please request multiple sections so we can accommodate your class."
+    }
   mount_uploader :syllabus, SyllabusUploader
   
   scope :unclaimed,             ->{ where(primary_contact_id: nil) }
@@ -58,14 +61,6 @@ class Course < ActiveRecord::Base
   
   STATUS = ['Active', 'Cancelled', 'Closed']  
   validates_inclusion_of :status, :in => STATUS
-  
-  def scheduling_sessions
-    errors.add(:scheduling, "To bring your class for multiple visits this semester, please request multiple sessions.") if session_count < 2
-  end
-  
-  def scheduling_sections
-    errors.add(:scheduling, "The classrooms have a maximum capacity of 35 people. Please request multiple sections so we can accommodate your class.") if section_count < 2
-  end
   
   # Note: DO NOT replace MAX(actual_date) with alias, .count will error out
   #
