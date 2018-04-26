@@ -1,5 +1,5 @@
 - unless @notes.nil? || @notes.empty?
-  - if current_user.can_admin?
+  - if controller.action_name != 'recent_show' && current_user.can_admin?
     - if @note_type[:patron]
       %button.btn.btn-info.btn-xs.note-toggle#patron Patron Notes (Show/Hide)
       %br
@@ -36,7 +36,7 @@
       %p= note.note_text
       %p
         %em #{note.user.full_name unless note.user.nil?}(#{note.user.user_type unless note.user.nil?}) on: #{note.created_at.strftime(DATETIME_FORMAT)}
-      - if current_user.staff? || current_user.can_admin?
+      - if controller.action_name != 'recent_show' && (current_user.staff? || current_user.can_admin?)
         %br/
         = link_to "Edit", edit_note_path(note.id)
         | #{link_to('Delete', note_path(note), :data => { :confirm => "Are you sure?" }, :method => :delete)}
