@@ -6,3 +6,5 @@
     = link_to 'Cancel', "#{course_path(course)}/cancel", :class => 'btn btn-sm btn-info', :data => { :confirm => "Are you sure?" }, :method => :get
   - if current_user.superadmin?
     = link_to 'Delete', course_path(course), :method => :delete, :class => 'btn btn-sm btn-danger', :data => { :confirm => "Are you sure?" }, :method => :delete
+.btn-group.course-actions{ :style => "width: 150px" }
+  = link_to 'Print-Friendly', recent_show_course_url(course), :class => 'btn btn-sm btn-primary'
