@@ -328,7 +328,19 @@ class CoursesController < ApplicationController
   end
 
   def recent_show
-    @course = Course.find(params[:id])
+    @course = Course.includes(sections: :room).find(params[:id])
+    @notes = Note.where(:course_id => @course.id).order("created_at DESC").includes(:user)
+    @note_type = {
+      :system => false,
+      :staff =>  false,
+      :patron => false
+    }
+    @notes.each do |note|
+      @note_type[:system] = true if note.auto?
+      @note_type[:staff]  = true if note.staff_comment?
+      @note_type[:patron] = true if !(note.auto? || note.staff_comment?)
+      break if @note_type.inject(true) { |anded, n_type| anded && n_type[1] }
+    end
   end
 
   def repo_select
