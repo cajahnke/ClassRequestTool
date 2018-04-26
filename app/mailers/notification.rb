@@ -155,7 +155,8 @@ class Notification < ActionMailer::Base
     unless course.primary_contact.blank?
       recipients << course.primary_contact.email
     end
-
+    superadmins = User.where(:superadmin => true).map{|u| u.email}
+    recipients += superadmins
     mail(to: recipients, subject: "[ClassRequestTool] You have been assigned a class")
   end
 
@@ -182,12 +183,13 @@ class Notification < ActionMailer::Base
     unless course.pre_class_appt.blank?
       @pre_class = "<p>Additionally, your pre-class planning appointment is scheduled for #{course.pre_class_appt} with #{@staff_name} at the Harry Ransom Center.</p>"
     end
-
     # send email to requester
     recipients = [course.contact_email]
     unless course.additional_patrons.blank?
       recipients += course.additional_patrons.map { |p| p.email }
     end
+    superadmins = User.where(:superadmin => true).map{|u| u.email}
+    recipients += superadmins
     mail(to: recipients, subject: "[ClassRequestTool] Confirmation of time change")
   end
 
