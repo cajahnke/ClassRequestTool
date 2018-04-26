@@ -31,7 +31,7 @@
     = yield :header_tags
   %body{:class => "c_#{controller.controller_name} a_#{controller.action_name} u_#{current_user ? current_user.user_type : "anon"}"}
     #wrap
-      - if current_user && current_user.can_admin?
+      - if controller.action_name != 'recent_show' && current_user && current_user.can_admin?
         %div{:class => "notifications-status #{Customization.current.notifications_on? ? 'ON' : 'OFF' }"}
           Notifications:
           %b= Customization.current.notifications_on? ? 'SENDING NORMALLY' : "TEST MODE - delivering to #{test_mail_recipient}"
