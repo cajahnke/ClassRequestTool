@@ -36,6 +36,9 @@ var firstClassDateExtraction = function(node) {
         $('.over_35 #single_visit').hide();
         break;
     }
+    $("input[name$='][headcount]']").filter(function(i,e){
+      return typeof e.value !== 'undefined' && e.value === '';
+    }).val($('input[name="course[number_of_students]"]').val());
   };
 $(function () {
   var style_checkboxes = function() {
@@ -130,6 +133,10 @@ $(function () {
 
     var courseId = $('#info-left').data('course_id');
 
+    $("input[name$='][headcount]']").filter(function(i,e){
+      return typeof e.value !== 'undefined' && e.value === '';
+    }).val($('input[name="course[number_of_students]"]').val());
+	  
     /* Sets a particular requested date as actual date */
     $('body').on('click', 'button.date-setter', function (e) {
       e.preventDefault();
@@ -410,10 +417,7 @@ $(function () {
   }
 
   $('input[name="course[scheduling]"]').change(function(){scheduling_change()});
-  $('input[name="course[number_of_students]"]').change(function(){
-    $("input[name$='][headcount]']").val(this.value);
-    scheduling_change();
-  });
+  $('input[name="course[number_of_students]"]').change(function(){scheduling_change()});
   $('div.flash-danger p').each(function(i,e){
     if ($('input[name="course[scheduling]"]:checked').val() == 2 && this.innerHTML === 'Sections: The classrooms have a maximum capacity of 35 people. Please request multiple sections so we can accommodate your class.'){
       this.innerHTML = 'Sections: To bring your class for multiple visits this semester, please request multiple sessions.'
