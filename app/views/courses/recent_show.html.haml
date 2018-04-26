@@ -1,12 +1,195 @@
 %h3= @course.title
-%div
-  %h4 Class Information
-  Library/Archive: Harry Ransom Center
-  %br/
-  Title: #{@course.title unless @course.title.nil?}
-  %br/
-  Subject: #{@course.subject unless @course.subject.nil?}
-  %br/
-  Course Number: #{@course.course_number unless @course.course_number.nil?}
-  %br/
-  Date of Class: #{@course.sections.first.try(:actual_date).try(:strftime, DATE_FORMAT) unless @course.sections.first.try(:actual_date).nil?}
+#welcome-left
+  %h4 Course Information
+  %ul.summary-info
+    %li
+      %span.summary-label Library/Archive:
+      %span#a_repository= @course.repository.nil? ? "Not Sure - Help me Choose" : @course.repository.name
+    %li
+      %span.summary-label Title:
+      %span#a_title= @course.title unless @course.title.nil?
+      %span.summary-label Subject:
+      %span#a_subject= @course.subject unless @course.subject.nil?
+      %br/
+    %li
+      %span.summary-label Course Number:
+      %span#a_class= @course.course_number unless @course.course_number.nil?
+    %li
+      %span.summary-label Affiliation:
+      %span#a_affiliation= @course.affiliation unless @course.affiliation.nil?
+    %li
+      %span.summary-label Level of Class:
+      %span#a_level= @course.level unless @course.level.nil?
+    %li
+      %span.summary-label Clone previous class number:
+      %span#a_clone= @course.clone unless @course.clone.nil?
+    %li
+      %span.summary-label Number of Students:
+      %span#studentNo= @course.number_of_students unless @course.number_of_students.nil?
+    %li
+      %span.summary-label Goal for Class Visit:
+      = @course.goal.html_safe unless @course.goal.nil?
+  - unless !user_signed_in? || current_user.patron?
+    %h4 Requester Information
+    %ul.summary-info
+      %li
+        %span.summary-label Primary Contact Username:
+        %span#a_requestorUsername= @course.contact_username unless @course.contact_username.nil?
+      %li
+        %span.summary-label Primary Contact Name:
+        %span#a_patronContact
+          = @course.contact_first_name unless @course.contact_first_name.nil?
+          = @course.contact_last_name unless @course.contact_last_name.nil?
+      %li
+        %span.summary-label Primary Contact Email:
+        = @course.contact_email unless @course.contact_email.nil?
+      %li
+        %span.summary-label Primary Contact Phone:
+        = @course.contact_phone unless @course.contact_phone.nil?
+      %li
+        %h5 Additional Contacts
+        %ul.summary-info
+          - @course.additional_patrons.each do |ap|
+            %li= "#{ap.first_name} #{ap.last_name}, #{ap.email}, (#{ap.role})"
+  %h4 Staff Assignments
+  %ul.summary-info
+    %li
+      %span.summary-label Primary Library/Archive Contact:
+      - unless @course.primary_contact.nil?
+        = mail_to @course.primary_contact.email, "#{@course.primary_contact.full_name}"
+      - else
+        None
+    - unless @course.users.blank?
+      %li
+        %span.summary-label Additional Staff:
+        %ul
+          -@course.users.each do |u|
+            %li #{u.full_name}      
+  
+  - unless @course.assisting_repository.blank?
+    %h4 Collaborating Library/Archive
+    %ul.summary-info
+      %li
+        #{@course.assisting_repository.name}
+      %li
+        %span.summary-label Nature of Collaboration
+        %br
+          - if @course.collaboration_options.blank?
+            None selected
+            %br
+          - else
+            - @course.collaboration_options.each do |option|
+              #{option}
+              %br
+            
+  %h4 Staff Services Requested
+  - if @course.staff_services.blank? && @course.staff_involvement.blank? && @course.collaboration.blank?
+    %p No services have been selected yet.
+  - else
+    %ul
+      - if !@course.staff_services.blank?
+        - @course.staff_services.each do |si|
+          %li= si.description
+      -if !@course.collaboration.blank?
+        %li= @course.collaboration ? "Collaboratively taught session" : ""
+      -if !@course.staff_involvement.blank?
+        %li= @course.staff_involvement
+
+  %h4 Technologies Requested
+  - if @course.item_attributes.blank?
+    %p No technologies have been selected yet.
+  - else
+    %ul
+      - @course.item_attributes.each do |tech|
+        %li= tech.name
+
+  %h4 Class Frequency
+  %ul.summary-info
+    - case @course.scheduling
+    - when 1
+      %li 
+        %span.summary-label I want to bring my class in only one time this semester.
+    - when 2
+      %li 
+        %span.summary-label I want to bring my class in more than one time this semester to look at different materials.
+    - when 3
+      %li 
+        %span.summary-label I want to bring my class in each week this semester.
+    -  when nil
+      %li  
+        %span.summary-label Not specified.
+  %h4 Scheduling
+  %ul.summary-info
+    %li
+      %span.summary-label
+        Number of Class Visits: #{@course.sessions.count}
+  %h4 Class Dates & Times
+  - if !@course.sections.map(&:actual_date).reject(&:nil?).blank? || !@course.sections.map(&:requested_dates).reject(&:nil?).blank?
+    %div
+      - aeon_timeframe_emitted = false # Has the first timeframe been specified for Aeon?
+      - @course.sessions.each do |i, sesh|
+        %h5 Session #{i}
+        - sort_sections(sesh).each.with_index(1) do |sect, j|
+          .well.well-sm
+            %h6 Section #{j}
+            %ul.summary-info.no-bullet
+              - if sect.actual_date
+                %li
+                  %span.summary-label Actual Date:
+                  - actual_date = sect.try(:actual_date).try(:in_time_zone, Rails.configuration.time_zone).try(:strftime, DATETIME_AT_FORMAT)
+                  - if  !aeon_timeframe_emitted 
+                    %span#a_timeframe #{actual_date}
+                  - else
+                    = actual_date
+                - aeon_timeframe_emitted = true
+              - elsif sect.requested_dates
+                %li
+                  %span.summary-label 
+                    Requested Times:
+                  %ul
+                    %li
+                      = sect.requested_dates.map {|rd| rd.in_time_zone(Rails.configuration.time_zone).strftime(DATETIME_AT_FORMAT) }.join('</li><li>').html_safe
+              - if 'Closed' == @course.status
+                %li
+                  %span.summary-label Headcount:
+                  = sect.headcount ? sect.headcount : "Not Recorded"
+              %li
+                %span.summary-label Room:
+                = sect.room ? sect.room.name : 'No room assigned'
+  - else
+    %div No class dates selected.
+  %ul.summary-info
+    %li
+      %span.summary-label Class Duration:
+      %span#a_duration= pluralize(@course.duration, 'hour') unless @course.duration.nil?
+    %li
+      %span.summary-label Comments:
+      = @course.comments unless @course.comments.nil?
+#welcome-right
+  - if current_user.staff? || current_user.can_admin?
+    %h4 Admin Actions
+    %ul.summary-info
+      %li
+        %span.summary-label Status:
+        %br/
+        = full_status(@course)
+      %li
+        %span.summary-label Primary Library/Archive Contact:
+        - unless @course.primary_contact.nil?
+          %span#a_staffContact
+            = @course.primary_contact.first_name
+            = @course.primary_contact.last_name unless @course.contact_last_name.nil?
+          \- #{mail_to @course.primary_contact.email, "Send Email"}
+        - else
+          None
+    %h4 Other Staff Assigned:
+    %ul.summary-info
+      - unless @course.users.blank?
+        - @course.users.each do |user|
+          %li= mail_to user.email, "#{user.full_name}"
+      - else
+        %li None
+    %h4 Notes
+    - unless @notes.blank?
+      = render :partial => 'notes/index', :locals => {:notes => @notes }
+    %br
