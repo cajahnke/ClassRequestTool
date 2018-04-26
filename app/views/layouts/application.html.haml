@@ -71,6 +71,7 @@
       / ! end of #main
       #push
     / ! end of #wrap
-    #footer
-      .container
-        = render :partial => 'shared/footer'
+    - if controller.action_name != 'recent_show'
+      #footer
+        .container
+          = render :partial => 'shared/footer'
