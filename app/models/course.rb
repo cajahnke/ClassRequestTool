@@ -292,11 +292,11 @@ class Course < ActiveRecord::Base
         group_by << field
       when 'teaching'
         header_row << 'Staff Teaching'
-        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 21) then 'Yes' else '' end as teaching"
+        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id in (24,25)) then 'Yes' else '' end as teaching"
         group_by << 'c.id'
       when 'RVRassignment'
         header_row << 'Student RVR Assignment '
-        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 9) then 'Yes' else '' end as RVRassignment"
+        formatted_fields << "case when exists (select * from courses_staff_services css2 where c.id = css2.course_id and css2.staff_service_id = 28) then 'Yes' else '' end as RVRassignment"
         group_by << 'c.id'
       when 's.id'
         header_row << 'Section ID'
