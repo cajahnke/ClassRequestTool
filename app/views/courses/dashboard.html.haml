@@ -12,8 +12,6 @@
   %li.active
     %a{"data-toggle" => "tab", :href => "#upcoming", :role => "tab"} Upcoming Classes
   %li
-    %a{"data-toggle" => "tab", :href => "#homeless", :role => "tab"} Homeless Classes
-  %li
     %a{"data-toggle" => "tab", :href => "#unclaimed", :role => "tab"} Classes to Claim
   %li
     %a{"data-toggle" => "tab", :href => "#closed", :role => "tab"} Completed Classes
@@ -34,13 +32,6 @@
       :title => 'Unscheduled Classes', |
       :courses => @claimed_unscheduled }                |
   / END #upcoming
-  #homeless.tab-pane.row
-    .clearfix
-      = render :partial => 'dashboard_table', |
-        :locals => { :id => 'homeless',        |
-        :title => 'Homeless Classes',                |
-        :courses => @homeless }                      |
-  / END homeless
   #unclaimed.tab-pane.row
     .clearfix
       = render :partial => 'dashboard_table', |
