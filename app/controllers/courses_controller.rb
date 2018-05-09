@@ -133,6 +133,12 @@ class CoursesController < ApplicationController
         else
           if course.scheduled?
             @claimed_scheduled << course
+            if course.repository_id == 2 || course.collaboration == true
+              @claimed_scheduled_teaching << course
+            end
+            if course.repository_id == 4 || course.staff_service_ids.any? {|i| i == 26}
+              @claimed_scheduled_setup << course
+            end
           else
             @claimed_unscheduled << course
             section_ids = course.missing_dates?
