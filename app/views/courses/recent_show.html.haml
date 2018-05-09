@@ -193,3 +193,8 @@
     - unless @notes.blank?
       = render :partial => 'notes/index', :locals => {:notes => @notes }
     %br
+    .well.well-sm
+      %h5 Ransom Center Use Only
+      = semantic_form_for(@course) do |f|
+        = f.inputs do
+          = f.input :created_at, :label => 'Date Request Received: ', :as => :date_picker, :input_html => { :size => 10 }
