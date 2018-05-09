@@ -550,8 +550,7 @@ class CoursesController < ApplicationController
       if params[:course][:repository_id].blank? || @course.repository_id == params[:course][:repository_id].to_i
         return false
       else
-        new_repo = Repository.find(params[:course][:repository_id].to_i)
-        return ! new_repo.affiliated?(current_user)
+        return true
       end
     end
 
