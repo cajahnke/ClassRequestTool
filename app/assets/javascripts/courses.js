@@ -39,6 +39,12 @@ var firstClassDateExtraction = function(node) {
     $("input[name$='][headcount]']").filter(function(i,e){
       return typeof e.value !== 'undefined' && e.value === '';
     }).val($('input[name="course[number_of_students]"]').val());
+  },
+  toggleCollaboration = function(){
+    if ($('#course_staff_service_26').prop('checked') != true){
+      $('#course_collaboration').prop('checked',true);
+      $('label[for="course_collaboration"] div').addClass('checked');
+    }
   };
 $(function () {
   var style_checkboxes = function() {
@@ -310,13 +316,20 @@ $(function () {
     $('#course_users_input .checkbox').show();
     console.log($('.checkbox input#course_user_ids_' + userId).parent().parent().parent());
     $('.checkbox input#course_user_ids_' + userId).parent().parent().parent().hide();
+    if (this.selectedIndex > 0){
+      toggleCollaboration();
+    }
   });
 
   /* Update staff services and repository staff and remove primary contact when changing repositories */
   $('#course_repository_id_input select').on('change', function(e) {
 
     var repoId = $(e.currentTarget).val();
-
+    if (repoId == 4){
+      $('#course_staff_service_26').prop('checked',true);
+    } else if (this.selectedIndex > 0){
+      toggleCollaboration();
+    }
     //Staff change
     $.get('/repository/staff/', 'id=' + repoId + '&form=true&for=course_course[user_ids][]', function(html) {
 
