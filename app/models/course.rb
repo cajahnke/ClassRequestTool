@@ -272,7 +272,7 @@ class Course < ActiveRecord::Base
         group_by << field
       when 'scheduling'
         header_row << 'Semester Long?'
-        formatted_fields << "case when semester_long = 3 then 'Yes' when semester_long in (1,2) then 'No' else '' end as semester_long"
+        formatted_fields << "case when scheduling = 3 then 'Yes' when scheduling in (1,2) then 'No' else '' end as scheduling"
         group_by << field
       when 'r.name'
         header_row << 'Repository'
