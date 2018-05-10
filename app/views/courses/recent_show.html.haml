@@ -197,4 +197,23 @@
       %h5 Ransom Center Use Only
       = semantic_form_for(@course) do |f|
         = f.inputs do
-          = f.input :created_at, :label => 'Date Request Received: ', :as => :date_picker, :input_html => { :size => 10 }
+          = f.input :created_at, :label => 'Date Request Received: ', :as => :date_picker, :input_html => { :size => 6 }
+          %span.summary-label Room Reserved:
+          = select_tag("course[sections_attributes][0][room_id]", 
+            options_from_collection_for_select(@course.repository.rooms.order(:name), :id, :name, @course.sections[0].room_id),  
+            include_blank: true,  
+            id: "course_sections_attributes_0_room_id")
+          %br
+          %span.summary-label PAPER
+          .icheckbox_square-blue.bordered
+          %span.summary-label AEON
+          .icheckbox_square-blue.bordered
+          %span.summary-label GOOGLE
+          .icheckbox_square-blue.bordered
+          %span.summary-label EVENT
+          .icheckbox_square-blue.bordered
+          %br
+          %span.summary-label CONFIRMATION
+          .icheckbox_square-blue.bordered
+          %span.summary-label COPIES
+          .icheckbox_square-blue.bordered
