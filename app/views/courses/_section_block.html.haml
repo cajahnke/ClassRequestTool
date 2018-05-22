@@ -30,7 +30,7 @@
       - if current_user.can_schedule?
         .form_full_width.admin-box{:style => "clear:both;"}
           = formtastic_wrapper('string', "Actual Date", (text_field_tag :actual_date, display_with_tz(sect.actual_date), :name => "#{name_prefix}[actual_date]", :id => "#{id_prefix}_actual_date", :class => 'actual-date date form-control')).html_safe
-          = formtastic_wrapper('number', "Headcount (number of students attended): ", (text_field_tag :headcount, sect.headcount, :type => 'number', :name => "#{name_prefix}[headcount]", :id => "#{id_prefix}_headcount", :class => 'headcount_val form-control', :min => 0, :step => 1, :only_integer => true)).html_safe
+          = formtastic_wrapper('number', "Headcount (number of persons attended): ", (text_field_tag :headcount, sect.headcount, :type => 'number', :name => "#{name_prefix}[headcount]", :id => "#{id_prefix}_headcount", :class => 'headcount_val form-control', :min => 0, :step => 1, :only_integer => true)).html_safe
           .select.input.optional.form-group{:id => "#{id_prefix}_room_input"}
             - unless @course.nil? || @course.repository.nil?
               %label.control-label{:for => "#{id_prefix}_room_id"} Room Assignment (Harry Ransom Center):
