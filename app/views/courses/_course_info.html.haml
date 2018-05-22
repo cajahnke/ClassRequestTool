@@ -7,7 +7,7 @@
       .form_col2
         = f.input :subject, :label => "Class Topic: "
       .form_col1
-        = f.input :number_of_students, :as => :number, :min => 0, :step => 1, :label => "Number of Students: ", :hint => !@course.repository.nil? && !@course.repository.class_limit.nil? && @course.repository.class_limit != 0 ? "Room capacity is #{@course.repository.class_limit unless @course.repository.nil?}. Larger groups can often be accommodated. Staff will be in touch with options." : ""
+        = f.input :number_of_students, :as => :number, :min => 0, :step => 1, :label => "Total Number of Persons Expected: ", :hint => !@course.repository.nil? && !@course.repository.class_limit.nil? && @course.repository.class_limit != 0 ? "Room capacity is #{@course.repository.class_limit unless @course.repository.nil?}. Larger groups can often be accommodated. Staff will be in touch with options." : ""
       .form_col1
         = f.input :course_number, :label => "Course Number: "
       .form_col2.clearfix
