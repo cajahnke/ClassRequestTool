@@ -42,6 +42,7 @@
             .glyphicon.glyphicon-info-sign
           - if current_user.can_admin?
             %th Requester
+            %th Status
           / %th{class: "{sorter: false, filter: false}"} Actions
           %th.hidden.filter-false.sorter-false  search index
       %tbody
@@ -75,6 +76,7 @@
                 #{c.contact_first_name} #{c.contact_last_name}
                 %br
                 = mail_to c.contact_email, "<span class='glyphicon glyphicon-envelope'></span>".html_safe
+              %td #{c.status}
             %td.hidden= searchable_fields(c)
     .pager-courses-current
       = render 'shared/tablesorter_pager'
