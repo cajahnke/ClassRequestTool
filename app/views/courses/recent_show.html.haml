@@ -194,9 +194,10 @@
       = render :partial => 'notes/index', :locals => {:notes => @notes }
     %br
     .well.well-sm
-      %h5 Ransom Center Use Only
       = semantic_form_for(@course) do |f|
         = f.inputs do
+          %h5  
+            = f.input :aeon, :label => 'AEON #', :input_html => { :size => 10 }
           = f.input :created_at, :label => 'Date Request Received: ', :as => :date_picker, :input_html => { :size => 6 }
           %span.summary-label Room Reserved:
           = select_tag("course[sections_attributes][0][room_id]", 
@@ -204,16 +205,17 @@
             include_blank: true,  
             id: "course_sections_attributes_0_room_id")
           %br
-          %span.summary-label PAPER
           .icheckbox_square-blue.bordered
-          %span.summary-label AEON
+          %span.summary-label="PAPER\u00a0\u00a0\u00a0"
           .icheckbox_square-blue.bordered
-          %span.summary-label GOOGLE
+          %span.summary-label="GOOGLE\u00a0\u00a0\u00a0"
           .icheckbox_square-blue.bordered
-          %span.summary-label EVENT
+          %span.summary-label="EVENT\u00a0\u00a0\u00a0"
           .icheckbox_square-blue.bordered
+          %span.summary-label CONFIRM
           %br
-          %span.summary-label CONFIRMATION
-          .icheckbox_square-blue.bordered
-          %span.summary-label COPIES
-          .icheckbox_square-blue.bordered
+          %span.summary-label Staff/User:
+          = select_tag("course[primary_contact_id]", 
+            options_from_collection_for_select(@course.repository.users.order(:last_name), :id, :full_name, @course.primary_contact_id),  
+            include_blank: true,  
+            id: "course_staff_contact_id")
