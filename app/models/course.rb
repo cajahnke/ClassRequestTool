@@ -19,6 +19,8 @@ class Course < ActiveRecord::Base
   has_many :sections, :dependent => :destroy
   accepts_nested_attributes_for :sections, :reject_if => ->(s){s.nil?}, :allow_destroy => true
   
+  attr_accessor :aeon
+  
   validates_presence_of :title, :message => "can't be empty"
   validates_presence_of :contact_first_name, :contact_last_name
   validates_presence_of :contact_email, :message => "contact email is required"
