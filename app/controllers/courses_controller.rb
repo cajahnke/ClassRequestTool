@@ -466,7 +466,7 @@ class CoursesController < ApplicationController
         end
       end
 
-      if changed_repo
+      if changed_repo && @course.repository_id.to_i != 1
         # FIX INFO_NEEDED Should "changed from" repos get email? Inquiring Bobbis want to know
         Notification.repo_change(@course).deliver_later(:queue => 'changes') unless @course.repository.blank?
         flash_message :info, "Repository change notification sent"  unless Customization.current.notifications_on?
