@@ -436,5 +436,5 @@ $(function () {
       this.innerHTML = 'Sections: To bring your class for multiple visits this semester, please request multiple sessions.'
     }
   });
-  $('#course_created_at').removeClass('form-control');
+  $('#course_created_at,#course_aeon').removeClass('form-control');
 });
