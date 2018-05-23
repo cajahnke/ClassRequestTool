@@ -51,7 +51,7 @@ $(function(){
    var mySorters = {};
     $(this).find('tr.active-headers th').each( function(i) {
       if ($(this).hasClass('date')) {
-        mySorters[i] = { sorter: 'data_date' };
+        mySorters[i] = { sorter: 'usLongDate' };
       }
     });
     
