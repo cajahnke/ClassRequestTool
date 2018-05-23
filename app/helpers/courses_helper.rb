@@ -17,7 +17,7 @@ module CoursesHelper
   end
 
   def searchable_fields(course)
-    strip_tags(course.attributes.values_at("comments", "goal", "title", "subject", "affiliation", "course_number", "contact_first_name", "contact_last_name", "assisting_repository", "additional_patrons").reject(&:blank?).join(' ')).downcase.gsub(/[^a-z0-9\s]/i, '')
+    strip_tags(course.attributes.values_at("comments", "goal", "title", "subject", "affiliation", "course_number", "contact_first_name", "contact_last_name", "assisting_repository", "additional_patrons", "title", "status").reject(&:blank?).join(' ') + ' ' + course.repository.name + ' ' + (course.homeless? ? 'Cancelled' : scheduling_status(course.sections).html_safe) + ' ' + (course.claimed? && !course.primary_contact.nil? ? course.primary_contact.full_name : (course.claimed? && course.primary_contact.nil? ? ('Erroneous claim: unknown user with ID: ' + course.primary_contact_id.to_s) : 'Unclaimed')) + ' ' + course.created_at.strftime(DATE_FORMAT).html_safe + ' ' + first_plus_multiple_sections(course).html_safe).downcase.gsub(/[^a-z0-9\s:]/i, '')
   end
   
   def full_status(course)
