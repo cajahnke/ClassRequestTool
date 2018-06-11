@@ -150,12 +150,6 @@ class CoursesController < ApplicationController
       elsif course.unclaimed? && current_user.repositories.include?(course.repository) && !course.closed? && !course.cancelled?
         if course.scheduled?
           @unclaimed_scheduled << course
-          if course.repository_id == 2
-            @claimed_scheduled_teaching << course
-          end
-          if course.repository_id == 4
-            @claimed_scheduled_setup << course
-          end
         else
           @unclaimed_unscheduled << course
           section_ids = course.missing_dates?
@@ -277,6 +271,7 @@ class CoursesController < ApplicationController
       :admin => current_user.can_schedule?,
       :section_index => params[:section_index],
     }
+    
     respond_to do |format|
       format.html do
         if params[:to_render] == 'session'
@@ -347,6 +342,30 @@ class CoursesController < ApplicationController
       @note_type[:patron] = true if !(note.auto? || note.staff_comment?)
       break if @note_type.inject(true) { |anded, n_type| anded && n_type[1] }
     end
+    
+    first_section = @course.sections.where("actual_date IS NOT NULL").order("actual_date ASC").first
+    if first_section.nil? || first_section.room.nil?
+      room = ''
+    else
+      room = first_section.room.name
+    end
+    
+    @aeon_data = {
+      :room => room,
+      :title => @course.title,
+      :staffContact => @course.primary_contact.nil? ? '' : @course.primary_contact.full_name,
+      :patronContact => @course.contact_full_name,
+      :class => @course.course_number,
+      :affiliation => @course.affiliation,
+      :requestorUsername => @course.contact_username,
+      :subject => @course.subject,
+      :repository => @course.repo_name,
+      :timeframe => first_section.nil? ? '' : first_section.actual_date.utc.strftime(DATETIME_AEON_FORMAT),
+      :duration => @course.duration,
+      :patronLast => @course.contact_last_name,
+      :semester =>first_section.nil? ? '' : /(first_section.actual_date.month < 6 ? 'Sp' : (first_section.actual_date.month < 9 ? 'Su' : 'F')) + first_section.actual_date.year.to_s.slice(2,2)),
+      :date => first_section.nil? ? '' : first_section.actual_date.strftime('%-m/%-d/%y')
+    }
   end
 
   def repo_select
@@ -396,7 +415,10 @@ class CoursesController < ApplicationController
       :subject => @course.subject,
       :repository => @course.repo_name,
       :timeframe => first_section.nil? ? '' : first_section.actual_date.utc.strftime(DATETIME_AEON_FORMAT),
-      :duration => @course.duration
+      :duration => @course.duration,
+      :patronLast => @course.contact_last_name,
+      :semester =>first_section.nil? ? '' : ((first_section.actual_date.month < 6 ? 'Sp' : (first_section.actual_date.month < 9 ? 'Su' : 'F')) + first_section.actual_date.year.to_s.slice(2,2)),
+      :date => first_section.nil? ? '' : first_section.actual_date.strftime('%-m/%-d/%y')
     }
   end
 
@@ -499,6 +521,7 @@ class CoursesController < ApplicationController
         end
       end
       flash.now[:danger] = error_messages.html_safe
+      
       @course.sections.blank? ? @course.sections << Section.new(:course => @course) : nil
       respond_to do |format|
         format.html { render :action => :edit }
@@ -567,7 +590,7 @@ class CoursesController < ApplicationController
       return true if !params[:course][:user_ids].nil? && (@course.users.map{ |u| u.id.to_s }.sort != params[:course][:user_ids].sort)
       false
     end
-
+    
     def course_params
       params.require(:course).permit(
         :title, :number_of_students, :goal,
@@ -576,7 +599,7 @@ class CoursesController < ApplicationController
         :subject, :course_number, :affiliation,  :session_count,                                      #values
         :comments, :instruction_session, :status, :assisting_repository_id,
         :syllabus, :remove_syllabus, :external_syllabus,                                              #syllabus
-        :pre_class_appt, :timeframe, :timeframe_2, :timeframe_3, :timeframe_4, :duration,             #concrete schedule vals
+        :timeframe, :timeframe_2, :timeframe_3, :timeframe_4, :duration,             #concrete schedule vals
         :time_choice_1, :time_choice_2, :time_choice_3, :time_choice_4,                               # tentative schedule vals
         #:pre_class_appt_choice_1, :pre_class_appt_choice_2, :pre_class_appt_choice_3,                #unused
         :section_count, :session_count, :total_attendance,                                            # stats
@@ -597,6 +620,7 @@ class CoursesController < ApplicationController
           :actual_date,               # Single DateTime
           :session,                   # Integer representing session membership
           :session_duration,          # Section/session duration
+          :notes,
           :room_id,
           :course,
           :headcount
