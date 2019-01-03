@@ -293,12 +293,15 @@ $(function () {
     var selected = $('#affiliation input[name=affiliation_selection]:checked').val();
     if (selected == 'yes') {
       $('#local_yes').slideDown();
+      $('#local_affiliation').val('UT');
+      $('#other_affiliation').val('');
       $('#local_no_or_other').slideUp();
     } else {
       $('#local_yes').slideUp();
       $('#local_no_or_other').slideDown();
-      $('#local_affiliation').val('UT');
+      $('#local_affiliation').val(null);
     }
+
   });
   $('body').delegate('#local_affiliation', 'change', function() {
     if ($(this).val() == 'Other') {
