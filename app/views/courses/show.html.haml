@@ -127,7 +127,7 @@
         - @course.staff_services.each do |si|
           %li= si.description
       -if !@course.collaboration.blank?
-        %li= @course.collaboration ? "Collaboratively taught session" : ""
+        %li= @course.collaboration ? "Teach collaboratively (will require a pre-class meeting)" : ""
       -if !@course.staff_involvement.blank?
         %li= @course.staff_involvement
 
