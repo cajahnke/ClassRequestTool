@@ -297,7 +297,7 @@ $(function () {
     } else {
       $('#local_yes').slideUp();
       $('#local_no_or_other').slideDown();
-      $('#local_affiliation').val(null);
+      $('#local_affiliation').val('UT');
     }
   });
   $('body').delegate('#local_affiliation', 'change', function() {
