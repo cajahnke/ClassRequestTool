@@ -218,6 +218,7 @@ class Course < ActiveRecord::Base
               'title',
 #               'subject',
               'course_number',
+              'cr.label',
               'affiliation',
 #               'contact_email',
 #               'contact_phone',
@@ -259,6 +260,10 @@ class Course < ActiveRecord::Base
       when "c.created_at"
         header_row << 'Submitted'
         formatted_fields << "to_char(#{field}, 'YYYY-MM-DD HH:MIam') AS created"
+        group_by << field
+      when "cr.label"
+        header_row << 'Department'
+        formatted_fields << field
         group_by << field
       when 'outreach'
         header_row << 'Outreach?'
@@ -333,7 +338,8 @@ class Course < ActiveRecord::Base
       "LEFT JOIN sections s ON s.course_id = c.id",
       "LEFT JOIN users u ON u.id = c.primary_contact_id",
       "LEFT JOIN courses_staff_services css ON c.id = css.course_id",
-      "LEFT JOIN staff_services ss ON css.staff_service_id = ss.id"
+      "LEFT JOIN staff_services ss ON css.staff_service_id = ss.id",
+      "LEFT JOIN classRef cr ON cr.code = left(c.course_number,char_length(cr.code)) or replace(cr.code,' ','') = left(c.course_number,char_length(replace(cr.code,' ','')))"
     ]
     
     order = 'c.created_at ASC, s.session ASC NULLS LAST, s.actual_date ASC NULLS LAST'
