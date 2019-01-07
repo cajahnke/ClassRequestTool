@@ -25,6 +25,8 @@
             = text_field_tag :other_affiliation, @other_affiliation, class: 'form-control'
           %p
             = f.input :level, :as => :radio, :collection => Course::LEVEL, :label => "Level of Class: "
+            #other_level
+              = f.input :level_other_text, :label => false, :input_html => { :value => @level_other_text}
       .form_col2.clearfix
         %p
           = f.input :clone, :label => "Clone previous class number: ", class: 'form-control'
