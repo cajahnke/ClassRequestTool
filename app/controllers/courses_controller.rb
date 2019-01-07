@@ -79,7 +79,7 @@ class CoursesController < ApplicationController
     respond_to do |format|
       if @course.save
         unless @course.backdated?
-          Notification.new_request_to_requestor(@course).deliver_later(:queue => 'notifications')
+          # Notification.new_request_to_requestor(@course).deliver_later(:queue => 'notifications')
           Notification.new_request_to_admin(@course).deliver_later(:queue => 'notifications')
           flash_message :info, "New course request confirmation sent to patron"  unless Customization.current.notifications_on?
           flash_message :info, "New request notification sent to admins"  unless Customization.current.notifications_on?
