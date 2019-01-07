@@ -440,4 +440,21 @@ $(function () {
     }
   });
   $('#course_created_at,#course_aeon').removeClass('form-control');
+	
+	if ($('#course_level_other_text').val() !== '') {
+    $('#course_level_other').prop('checked',true);
+    $('#course_level_other').val($('#course_level_other_text').val());
+  }
+  $('#course_level_other_text').change(function(){
+    if (this.value != ''){
+      $('#course_level_other').prop('checked',true);
+      $('#course_level_other').val(this.value);
+    }
+  });
+  $('input[name="course[level]"]').change(function(){
+    if (this.value !== 'Other'){
+      $('#course_level_other_text').val('');
+      $('#course_level_other').val('Other');
+    }
+  });
 });
