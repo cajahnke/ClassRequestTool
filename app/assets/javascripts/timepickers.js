@@ -5,7 +5,7 @@ $(function () {
   $('body.c_courses').on('click', ' input.date:not(.hasDatepicker)', function (e) {
     var options = {
       controlType: 'select',
-      dateFormat: 'M d, yy',
+      dateFormat: 'D, M d, yy',
       timeFormat: "@ h:mm tt",
 //       dateFormat: 'yy-mm-dd',
 //       timeFormat: "hh:mm tt",
@@ -13,7 +13,7 @@ $(function () {
       stepMinute: 15,
       hourMin: 9,
       hourMax: 17,
-      beforeShowDay: $.datepicker.noWeekends,
+//       beforeShowDay: $.datepicker.noWeekends,
       minDate: ($(this).hasClass('actual-date') ? null : 3),
       minDate: ($(this).hasClass('actual-date') ? null : 3),
       numberOfMonths: 2
