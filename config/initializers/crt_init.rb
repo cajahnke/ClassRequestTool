@@ -5,7 +5,7 @@ DEFAULT_MAILER_SENDER = ENV['DEFAULT_MAILER_SENDER'] || "LibraryCRT@harvard.edu"
 
 # The following are settable through environment variables
 TIME_FORMAT = ENV['TIME_FORMAT'] || "%l:%M %P"      # 3:45 pm
-DATE_FORMAT = ENV['DATE_FORMAT'] ||  "%b %-d, %Y"    # Jan 1, 2015
+DATE_FORMAT = ENV['DATE_FORMAT'] ||  "%a, %b %-d, %Y"    # Mon, Jan 1, 2015
 
 DATETIME_FORMAT =         "#{DATE_FORMAT} #{TIME_FORMAT}"
 DATETIME_2_LINE_FORMAT =  "#{DATE_FORMAT}<br />#{TIME_FORMAT}"  # Requires .html_safe
