@@ -205,6 +205,11 @@ class CoursesController < ApplicationController
       @all_technologies   = ItemAttribute.find(Customization.current.homeless_technologies)
       @possible_collaborations = Repository.all
     end
+    
+    unless Course::LEVEL.include?(@course.level)
+      @level_other_text = @course.level
+      @course.level = 'Other'
+    end
   end
 
 
@@ -557,6 +562,10 @@ class CoursesController < ApplicationController
         end
       end
 
+      unless params[:level_other_text].blank?
+        params[:course][:level] = params[:level_other_text]
+      end
+      
       # set affiliation
       if params[:local_affiliation].blank?
         params[:course][:affiliation] = params[:other_affiliation]
@@ -573,6 +582,7 @@ class CoursesController < ApplicationController
       @affiliation_selection = params[:affiliation_selection]
       @other_affiliation   = params[:other_affiliation]
       @local_affiliation = params[:local_affiliation]
+      @level_other_text = params[:level_other_text]
     end
 
     def repo_change?
